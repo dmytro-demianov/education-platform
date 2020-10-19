@@ -6,10 +6,17 @@ import {Video, VideoSchema} from "./entities/video.entity";
 import {Keynote, KeynoteSchema} from "./entities/keynote.entity";
 import KeynoteController from "./keynote.controller";
 import {KeynoteService} from "./keynote.service";
+import {Class, ClassSchema} from "./entities/class.entity";
+import ClassController from "./class.controller";
+import {ClassService} from "./class.service";
 
 @Module({
     imports: [
         MongooseModule.forFeature([
+            {
+                name: Class.name,
+                schema: ClassSchema,
+            },
             {
                 name: Video.name,
                 schema: VideoSchema,
@@ -20,7 +27,7 @@ import {KeynoteService} from "./keynote.service";
             },
         ]),
     ],
-    controllers: [VideoController, KeynoteController],
-    providers: [VideoService, KeynoteService],
+    controllers: [VideoController, KeynoteController, ClassController],
+    providers: [VideoService, KeynoteService, ClassService],
 })
-export class LessonModule {}
+export class EduModule {}
