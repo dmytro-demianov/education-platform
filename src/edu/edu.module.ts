@@ -9,6 +9,9 @@ import {KeynoteService} from "./keynote.service";
 import {Class, ClassSchema} from "./entities/class.entity";
 import ClassController from "./class.controller";
 import {ClassService} from "./class.service";
+import {Lesson, LessonSchema} from "./entities/lesson.entity";
+import LessonController from "./lesson.controller";
+import {LessonService} from "./lesson.service";
 
 @Module({
     imports: [
@@ -16,6 +19,10 @@ import {ClassService} from "./class.service";
             {
                 name: Class.name,
                 schema: ClassSchema,
+            },
+            {
+                name: Lesson.name,
+                schema: LessonSchema,
             },
             {
                 name: Video.name,
@@ -27,7 +34,17 @@ import {ClassService} from "./class.service";
             },
         ]),
     ],
-    controllers: [VideoController, KeynoteController, ClassController],
-    providers: [VideoService, KeynoteService, ClassService],
+    controllers: [
+        VideoController,
+        KeynoteController,
+        ClassController,
+        LessonController,
+    ],
+    providers: [
+        VideoService,
+        KeynoteService,
+        ClassService,
+        LessonService,
+    ],
 })
 export class EduModule {}
