@@ -1,6 +1,5 @@
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import {Prop, raw, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {Document} from 'mongoose';
-import {LessonContent} from "./lesson-content.entity";
 
 @Schema()
 export class Lesson extends Document {
@@ -16,8 +15,13 @@ export class Lesson extends Document {
 	@Prop({ required: true, enum: ['standard', 'select', 'premium'] })
 	availability: string;
 
-	@Prop()
-	content: LessonContent;
+	@Prop(
+		raw({
+			videos: { type: [] },
+			keynotes: { type: [] }
+		})
+	)
+	content: Record<string, any>;
 }
 
 export const LessonSchema = SchemaFactory.createForClass(Lesson);

@@ -9,45 +9,45 @@ import {Video} from "./entities/video.entity";
 @Injectable()
 export class VideoService {
 	constructor(
-		@InjectModel(Video.name) private readonly userModel: Model<Video>,
+		@InjectModel(Video.name) private readonly videoModel: Model<Video>,
 		@InjectConnection() private readonly connection: Connection,
 	) {}
 
 	create(createVideoDto: CreateVideoDto) {
-		const user = new this.userModel(createVideoDto);
-		return user.save();
+		const video = new this.videoModel(createVideoDto);
+		return video.save();
 	}
 
 	async update(id: string, updateVideoDto: UpdateVideoDto) {
-		const user = await this.userModel
+		const video = await this.videoModel
 			.findOneAndUpdate({ _id: id }, { $set: updateVideoDto }, { new: true })
 			.exec();
 
-		if (!user) {
+		if (!video) {
 			throw new NotFoundException(`Video #${id} not found`);
 		}
 
-		return user;
+		return video;
 	}
 
 	async findOne(id: string) {
-		const user = await this.userModel.findOne({ _id: id }).exec();
-		if (!user) {
+		const video = await this.videoModel.findOne({ _id: id }).exec();
+		if (!video) {
 			throw new NotFoundException(`Video #[${id}] not found`);
 		}
-		return user;
+		return video;
 	}
 
 	async remove(id: string) {
-		const user = await this.findOne(id);
-		return user.remove();
+		const video = await this.findOne(id);
+		return video.remove();
 	}
 
 	findAll(paginationQuery: PaginationQueryDto) {
 		let { limit, page } = paginationQuery;
 		let offset = (--page) * limit;
 
-		return this.userModel
+		return this.videoModel
 			.find()
 			.skip(offset)
 			.limit(limit)
