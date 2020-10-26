@@ -63,38 +63,28 @@ export class LessonService {
 	}
 
 	async addVideo(lessonHash: string, addVideoDto: AddVideoDto) {
-		const session = await this.connection.startSession();
-		session.startTransaction();
+		await this.videoService.findOne(addVideoDto.videoHash);
 
-		let updatedLesson = null;
+		const lesson = await this.findOne(lessonHash);
 
-		try {
-			const lesson = await this.findOne(lessonHash);
-			await this.videoService.findOne(addVideoDto.videoHash);
-
+		if (lesson.content.videos.indexOf(addVideoDto.videoHash) !== 0) {
 			lesson.content.videos.push(addVideoDto.videoHash);
-
-			updatedLesson = lesson.save();
-
-			await session.commitTransaction();
-		} catch (e) {
-			await session.abortTransaction();
-
-			throw e;
-		} finally {
-			session.endSession();
+			await lesson.save();
 		}
 
-		return updatedLesson;
+		return lesson;
 	}
 
 	async removeVideo(lessonHash: string, videoHash: string) {
 		const lesson = await this.findOne(lessonHash);
-
 		const videoIndex = lesson.content.videos.indexOf(videoHash);
-		lesson.content.videos.splice(videoIndex, 1);
 
-		return lesson.save();
+		if (videoIndex >= 0) {
+			lesson.content.videos.splice(videoIndex, 1);
+			await lesson.save();
+		}
+
+		return lesson;
 	}
 
 	async findOneVideo(lessonHash: string, videoHash: string): Promise<Video> {
@@ -109,38 +99,28 @@ export class LessonService {
 	}
 
 	async addKeynote(lessonHash: string, addKeynoteDto: AddKeynoteDto) {
-		const session = await this.connection.startSession();
-		session.startTransaction();
+		await this.keynoteService.findOne(addKeynoteDto.keynoteHash);
 
-		let updatedLesson = null;
-
-		try {
-			const lesson = await this.findOne(lessonHash);
-			await this.keynoteService.findOne(addKeynoteDto.keynoteHash);
-
-			lesson.content.keynotes.push(addKeynoteDto.keynoteHash);
-
-			updatedLesson = lesson.save();
-
-			await session.commitTransaction();
-		} catch (e) {
-			await session.abortTransaction();
-
-			throw e;
-		} finally {
-			session.endSession();
-		}
-
-		return updatedLesson;
-	}
-
-	async removeKeynote(lessonHash: string, keynoteId: string) {
 		const lesson = await this.findOne(lessonHash);
 
-		const keynoteIndex = lesson.content.keynotes.indexOf(keynoteId);
-		lesson.content.keynotes.splice(keynoteIndex, 1);
+		if (lesson.content.keynotes.indexOf(addKeynoteDto.keynoteHash) !== 0) {
+			lesson.content.keynotes.push(addKeynoteDto.keynoteHash);
+			await lesson.save();
+		}
 
-		return lesson.save();
+		return lesson;
+	}
+
+	async removeKeynote(lessonHash: string, keynoteHash: string) {
+		const lesson = await this.findOne(lessonHash);
+		const keynoteIndex = lesson.content.keynotes.indexOf(keynoteHash);
+
+		if (keynoteIndex >= 0) {
+			lesson.content.keynotes.splice(keynoteIndex, 1);
+			await lesson.save();
+		}
+
+		return lesson;
 	}
 
 	async findOneKeynote(lessonHash: string, keynoteHash: string): Promise<Keynote> {
