@@ -9,6 +9,8 @@ import {VideoService} from "./video.service";
 import {AddVideoDto} from "./dto/add-video.dto";
 import {AddKeynoteDto} from "./dto/add-keynote.dto";
 import {KeynoteService} from "./keynote.service";
+import {Keynote} from "./entities/keynote.entity";
+import {Video} from "./entities/video.entity";
 
 @Injectable()
 export class LessonService {
@@ -95,6 +97,17 @@ export class LessonService {
 		return lesson.save();
 	}
 
+	async findOneVideo(lessonHash: string, videoHash: string): Promise<Video> {
+		const lesson = await this.findOne(lessonHash);
+		const existsVideo = lesson.content.videos.indexOf(videoHash) === 0;
+
+		if (!existsVideo) {
+			throw new NotFoundException(`Lesson have no video #[${videoHash}]`);
+		}
+
+		return await this.videoService.findOne(videoHash);
+	}
+
 	async addKeynote(lessonHash: string, addKeynoteDto: AddKeynoteDto) {
 		const session = await this.connection.startSession();
 		session.startTransaction();
@@ -128,5 +141,16 @@ export class LessonService {
 		lesson.content.keynotes.splice(keynoteIndex, 1);
 
 		return lesson.save();
+	}
+
+	async findOneKeynote(lessonHash: string, keynoteHash: string): Promise<Keynote> {
+		const lesson = await this.findOne(lessonHash);
+		const existsKeynote = lesson.content.keynotes.indexOf(keynoteHash) === 0;
+
+		if (!existsKeynote) {
+			throw new NotFoundException(`Lesson have no keynote #[${keynoteHash}]`);
+		}
+
+		return await this.keynoteService.findOne(keynoteHash);
 	}
 }

@@ -51,6 +51,14 @@ export default class LessonController {
 		return this.lessonService.removeVideo(lessonHash, videoHash);
 	}
 
+	@Get(':lessonHash/videos/:videoHash')
+	findOneVideo(
+		@Param('lessonHash') lessonHash: string,
+		@Param('videoHash') videoHash: string,
+	) {
+		return this.lessonService.findOneVideo(lessonHash, videoHash);
+	}
+
 	@Post(':lessonHash/keynotes')
 	addKeynote(
 		@Param('lessonHash') lessonHash: string,
@@ -65,5 +73,13 @@ export default class LessonController {
 		@Param('keynoteHash') keynoteHash: string
 	) {
 		return this.lessonService.removeKeynote(lessonHash, keynoteHash);
+	}
+
+	@Get(':lessonHash/keynotes/:keynoteHash')
+	findOneKeynote(
+		@Param('lessonHash') lessonHash: string,
+		@Param('keynoteHash') keynoteHash: string,
+	) {
+		return this.lessonService.findOneKeynote(lessonHash, keynoteHash);
 	}
 }
