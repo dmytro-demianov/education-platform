@@ -19,6 +19,9 @@ export class Class extends Document {
 		})
 	)
 	duration: Record<string, any>;
+
+	@Prop()
+	lessons: string[];
 }
 
 export const ClassSchema = SchemaFactory.createForClass(Class);

@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
-import {InjectConnection, InjectModel} from "@nestjs/mongoose";
-import {Connection, Model} from 'mongoose';
+import {InjectModel} from "@nestjs/mongoose";
+import {Model} from 'mongoose';
 import {Lesson} from "./entities/lesson.entity";
 import {CreateLessonDto} from "./dto/create-lesson.dto";
 import {UpdateLessonDto} from "./dto/update-lesson.dto";
@@ -16,7 +16,6 @@ import {Video} from "./entities/video.entity";
 export class LessonService {
 	constructor(
 		@InjectModel(Lesson.name) private readonly lessonModel: Model<Lesson>,
-		@InjectConnection() private readonly connection: Connection,
 		private readonly videoService: VideoService,
 		private readonly keynoteService: KeynoteService,
 	) {}
@@ -67,7 +66,7 @@ export class LessonService {
 
 		const lesson = await this.findOne(lessonHash);
 
-		if (lesson.content.videos.indexOf(addVideoDto.videoHash) !== 0) {
+		if (lesson.content.videos.indexOf(addVideoDto.videoHash) < 0) {
 			lesson.content.videos.push(addVideoDto.videoHash);
 			await lesson.save();
 		}
@@ -89,7 +88,7 @@ export class LessonService {
 
 	async findOneVideo(lessonHash: string, videoHash: string): Promise<Video> {
 		const lesson = await this.findOne(lessonHash);
-		const existsVideo = lesson.content.videos.indexOf(videoHash) === 0;
+		const existsVideo = lesson.content.videos.indexOf(videoHash) >= 0;
 
 		if (!existsVideo) {
 			throw new NotFoundException(`Lesson have no video #[${videoHash}]`);
@@ -103,7 +102,7 @@ export class LessonService {
 
 		const lesson = await this.findOne(lessonHash);
 
-		if (lesson.content.keynotes.indexOf(addKeynoteDto.keynoteHash) !== 0) {
+		if (lesson.content.keynotes.indexOf(addKeynoteDto.keynoteHash) < 0) {
 			lesson.content.keynotes.push(addKeynoteDto.keynoteHash);
 			await lesson.save();
 		}
@@ -125,7 +124,7 @@ export class LessonService {
 
 	async findOneKeynote(lessonHash: string, keynoteHash: string): Promise<Keynote> {
 		const lesson = await this.findOne(lessonHash);
-		const existsKeynote = lesson.content.keynotes.indexOf(keynoteHash) === 0;
+		const existsKeynote = lesson.content.keynotes.indexOf(keynoteHash) < 0;
 
 		if (!existsKeynote) {
 			throw new NotFoundException(`Lesson have no keynote #[${keynoteHash}]`);

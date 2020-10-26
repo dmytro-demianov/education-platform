@@ -3,8 +3,9 @@ import {ClassService} from "./class.service";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {CreateClassDto} from "./dto/create-class.dto";
 import {UpdateClassDto} from "./dto/update-class.dto";
+import {AddLessonDto} from "./dto/add-lesson.dto";
 
-@Controller('class')
+@Controller('classes')
 export default class ClassController {
 	constructor(private readonly classService: ClassService) {}
 
@@ -31,5 +32,21 @@ export default class ClassController {
 	@Delete(':classHash')
 	delete(@Param('classHash') classHash: string) {
 		return this.classService.remove(classHash);
+	}
+
+	@Post(':classHash/lessons')
+	addLesson(
+		@Param('classHash') classHash: string,
+		@Body() addLessonDto: AddLessonDto
+	) {
+		return this.classService.addLesson(classHash, addLessonDto);
+	}
+
+	@Delete(':classHash/lessons/:lessonHash')
+	removeLesson(
+		@Param('classHash') classHash: string,
+		@Param('lessonHash') lessonHash: string,
+	) {
+		return this.classService.removeLesson(classHash, lessonHash);
 	}
 }
