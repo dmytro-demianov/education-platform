@@ -18,28 +18,28 @@ export class VideoService {
 		return video.save();
 	}
 
-	async update(id: string, updateVideoDto: UpdateVideoDto) {
+	async update(videoHash: string, updateVideoDto: UpdateVideoDto) {
 		const video = await this.videoModel
-			.findOneAndUpdate({ _id: id }, { $set: updateVideoDto }, { new: true })
+			.findOneAndUpdate({ _id: videoHash }, { $set: updateVideoDto }, { new: true })
 			.exec();
 
 		if (!video) {
-			throw new NotFoundException(`Video #${id} not found`);
+			throw new NotFoundException(`Video #${videoHash} not found`);
 		}
 
 		return video;
 	}
 
-	async findOne(id: string) {
-		const video = await this.videoModel.findOne({ _id: id }).exec();
+	async findOne(videoHash: string) {
+		const video = await this.videoModel.findOne({ _id: videoHash }).exec();
 		if (!video) {
-			throw new NotFoundException(`Video #[${id}] not found`);
+			throw new NotFoundException(`Video #[${videoHash}] not found`);
 		}
 		return video;
 	}
 
-	async remove(id: string) {
-		const video = await this.findOne(id);
+	async remove(videoHash: string) {
+		const video = await this.findOne(videoHash);
 		return video.remove();
 	}
 

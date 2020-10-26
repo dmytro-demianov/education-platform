@@ -18,28 +18,28 @@ export class ClassService {
 		return classOne.save();
 	}
 
-	async update(id: string, updateClassDto: UpdateClassDto) {
+	async update(classHash: string, updateClassDto: UpdateClassDto) {
 		const classOne = await this.classModel
-			.findOneAndUpdate({ _id: id }, { $set: updateClassDto }, { new: true })
+			.findOneAndUpdate({ _id: classHash }, { $set: updateClassDto }, { new: true })
 			.exec();
 
 		if (!classOne) {
-			throw new NotFoundException(`Class #${id} not found`);
+			throw new NotFoundException(`Class #${classHash} not found`);
 		}
 
 		return classOne;
 	}
 
-	async findOne(id: string) {
-		const classOne = await this.classModel.findOne({ _id: id }).exec();
+	async findOne(classHash: string) {
+		const classOne = await this.classModel.findOne({ _id: classHash }).exec();
 		if (!classOne) {
-			throw new NotFoundException(`Class #[${id}] not found`);
+			throw new NotFoundException(`Class #[${classHash}] not found`);
 		}
 		return classOne;
 	}
 
-	async remove(id: string) {
-		const classOne = await this.findOne(id);
+	async remove(classHash: string) {
+		const classOne = await this.findOne(classHash);
 		return classOne.remove();
 	}
 

@@ -13,9 +13,9 @@ export default class ClassController {
 		return this.classService.findAll(paginationQuery);
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.classService.findOne(id);
+	@Get(':classHash')
+	findOne(@Param('classHash') classHash: string) {
+		return this.classService.findOne(classHash);
 	}
 
 	@Post()
@@ -23,13 +23,13 @@ export default class ClassController {
 		return this.classService.create(createClassDto);
 	}
 
-	@Put(':id')
-	update(@Param('id') id: string, @Body() updateClassDto: UpdateClassDto) {
-		return this.classService.update(id, updateClassDto);
+	@Put(':classHash')
+	update(@Param('classHash') classHash: string, @Body() updateClassDto: UpdateClassDto) {
+		return this.classService.update(classHash, updateClassDto);
 	}
 
-	@Delete(':id')
-	delete(@Param('id') id: string) {
-		return this.classService.remove(id);
+	@Delete(':classHash')
+	delete(@Param('classHash') classHash: string) {
+		return this.classService.remove(classHash);
 	}
 }

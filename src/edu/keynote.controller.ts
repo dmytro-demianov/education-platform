@@ -13,9 +13,9 @@ export default class KeynoteController {
 		return this.keynoteService.findAll(paginationQuery);
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.keynoteService.findOne(id);
+	@Get(':keynoteHash')
+	findOne(@Param('keynoteHash') keynoteHash: string) {
+		return this.keynoteService.findOne(keynoteHash);
 	}
 
 	@Post()
@@ -23,13 +23,13 @@ export default class KeynoteController {
 		return this.keynoteService.create(createKeynoteDto);
 	}
 
-	@Put(':id')
-	update(@Param('id') id: string, @Body() updateKeynoteDto: UpdateKeynoteDto) {
-		return this.keynoteService.update(id, updateKeynoteDto);
+	@Put(':keynoteHash')
+	update(@Param('keynoteHash') keynoteHash: string, @Body() updateKeynoteDto: UpdateKeynoteDto) {
+		return this.keynoteService.update(keynoteHash, updateKeynoteDto);
 	}
 
-	@Delete(':id')
-	delete(@Param('id') id: string) {
-		return this.keynoteService.remove(id);
+	@Delete(':keynoteHash')
+	delete(@Param('keynoteHash') keynoteHash: string) {
+		return this.keynoteService.remove(keynoteHash);
 	}
 }

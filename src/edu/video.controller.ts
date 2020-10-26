@@ -13,9 +13,9 @@ export default class VideoController {
 		return this.videoService.findAll(paginationQuery);
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.videoService.findOne(id);
+	@Get(':videoHash')
+	findOne(@Param('videoHash') videoHash: string) {
+		return this.videoService.findOne(videoHash);
 	}
 
 	@Post()
@@ -23,13 +23,13 @@ export default class VideoController {
 		return this.videoService.create(createVideoDto);
 	}
 
-	@Put(':id')
-	update(@Param('id') id: string, @Body() updateVideoDto: UpdateVideoDto) {
-		return this.videoService.update(id, updateVideoDto);
+	@Put(':videoHash')
+	update(@Param('videoHash') videoHash: string, @Body() updateVideoDto: UpdateVideoDto) {
+		return this.videoService.update(videoHash, updateVideoDto);
 	}
 
-	@Delete(':id')
-	delete(@Param('id') id: string) {
-		return this.videoService.remove(id);
+	@Delete(':videoHash')
+	delete(@Param('videoHash') videoHash: string) {
+		return this.videoService.remove(videoHash);
 	}
 }

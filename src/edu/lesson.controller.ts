@@ -15,9 +15,9 @@ export default class LessonController {
 		return this.lessonService.findAll(paginationQuery);
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.lessonService.findOne(id);
+	@Get(':lessonHash')
+	findOne(@Param('lessonHash') lessonHash: string) {
+		return this.lessonService.findOne(lessonHash);
 	}
 
 	@Post()
@@ -25,30 +25,30 @@ export default class LessonController {
 		return this.lessonService.create(createLessonDto);
 	}
 
-	@Put(':id')
-	update(@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDto) {
-		return this.lessonService.update(id, updateLessonDto);
+	@Put(':lessonHash')
+	update(@Param('lessonHash') lessonHash: string, @Body() updateLessonDto: UpdateLessonDto) {
+		return this.lessonService.update(lessonHash, updateLessonDto);
 	}
 
-	@Delete(':id')
-	delete(@Param('id') id: string) {
-		return this.lessonService.remove(id);
+	@Delete(':lessonHash')
+	delete(@Param('lessonHash') lessonHash: string) {
+		return this.lessonService.remove(lessonHash);
 	}
 
-	@Post(':id/videos')
+	@Post(':lessonHash/videos')
 	addVideo(
-		@Param('id') id: string,
+		@Param('lessonHash') lessonHash: string,
 		@Body() addVideoDto: AddVideoDto
 	) {
-		return this.lessonService.addVideo(id, addVideoDto);
+		return this.lessonService.addVideo(lessonHash, addVideoDto);
 	}
 
-	@Delete(':id/videos/:videoId')
+	@Delete(':lessonHash/videos/:videoHash')
 	removeVideo(
-		@Param('id') id: string,
-		@Param('videoId') videoId: string
+		@Param('lessonHash') lessonHash: string,
+		@Param('videoHash') videoHash: string
 	) {
-		return this.lessonService.removeVideo(id, videoId);
+		return this.lessonService.removeVideo(lessonHash, videoHash);
 	}
 
 	@Post(':lessonHash/keynotes')

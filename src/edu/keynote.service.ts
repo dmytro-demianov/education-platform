@@ -18,28 +18,28 @@ export class KeynoteService {
 		return keynote.save();
 	}
 
-	async update(id: string, updateKeynoteDto: UpdateKeynoteDto) {
+	async update(keynoteHash: string, updateKeynoteDto: UpdateKeynoteDto) {
 		const keynote = await this.keynoteModel
-			.findOneAndUpdate({ _id: id }, { $set: updateKeynoteDto }, { new: true })
+			.findOneAndUpdate({ _id: keynoteHash }, { $set: updateKeynoteDto }, { new: true })
 			.exec();
 
 		if (!keynote) {
-			throw new NotFoundException(`Keynote #${id} not found`);
+			throw new NotFoundException(`Keynote #${keynoteHash} not found`);
 		}
 
 		return keynote;
 	}
 
-	async findOne(id: string) {
-		const keynote = await this.keynoteModel.findOne({ _id: id }).exec();
+	async findOne(keynoteHash: string) {
+		const keynote = await this.keynoteModel.findOne({ _id: keynoteHash }).exec();
 		if (!keynote) {
-			throw new NotFoundException(`Keynote #[${id}] not found`);
+			throw new NotFoundException(`Keynote #[${keynoteHash}] not found`);
 		}
 		return keynote;
 	}
 
-	async remove(id: string) {
-		const keynote = await this.findOne(id);
+	async remove(keynoteHash: string) {
+		const keynote = await this.findOne(keynoteHash);
 		return keynote.remove();
 	}
 

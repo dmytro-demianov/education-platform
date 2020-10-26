@@ -13,9 +13,9 @@ export default class UserController {
 		return this.userService.findAll(paginationQuery);
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.userService.findOne(id);
+	@Get(':userHash')
+	findOne(@Param('userHash') userHash: string) {
+		return this.userService.findOne(userHash);
 	}
 
 	@Post()
@@ -23,13 +23,13 @@ export default class UserController {
 		return this.userService.create(createUserDto);
 	}
 
-	@Put(':id')
-	update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-		return this.userService.update(id, updateUserDto);
+	@Put(':userHash')
+	update(@Param('userHash') userHash: string, @Body() updateUserDto: UpdateUserDto) {
+		return this.userService.update(userHash, updateUserDto);
 	}
 
-	@Delete(':id')
-	delete(@Param('id') id: string) {
-		return this.userService.remove(id);
+	@Delete(':userHash')
+	delete(@Param('userHash') userHash: string) {
+		return this.userService.remove(userHash);
 	}
 }

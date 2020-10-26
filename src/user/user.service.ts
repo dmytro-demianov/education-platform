@@ -18,28 +18,28 @@ export class UserService {
 		return user.save();
 	}
 
-	async update(id: string, updateUserDto: UpdateUserDto) {
+	async update(userHash: string, updateUserDto: UpdateUserDto) {
 		const user = await this.userModel
-			.findOneAndUpdate({ _id: id }, { $set: updateUserDto }, { new: true })
+			.findOneAndUpdate({ _id: userHash }, { $set: updateUserDto }, { new: true })
 			.exec();
 
 		if (!user) {
-			throw new NotFoundException(`User #${id} not found`);
+			throw new NotFoundException(`User #${userHash} not found`);
 		}
 
 		return user;
 	}
 
-	async findOne(id: string) {
-		const user = await this.userModel.findOne({ _id: id }).exec();
+	async findOne(userHash: string) {
+		const user = await this.userModel.findOne({ _id: userHash }).exec();
 		if (!user) {
-			throw new NotFoundException(`User #[${id}] not found`);
+			throw new NotFoundException(`User #[${userHash}] not found`);
 		}
 		return user;
 	}
 
-	async remove(id: string) {
-		const user = await this.findOne(id);
+	async remove(userHash: string) {
+		const user = await this.findOne(userHash);
 		return user.remove();
 	}
 
