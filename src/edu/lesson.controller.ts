@@ -3,7 +3,8 @@ import {LessonService} from "./lesson.service";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {CreateLessonDto} from "./dto/create-lesson.dto";
 import {UpdateLessonDto} from "./dto/update-lesson.dto";
-import {CreateVideoDto} from "./dto/create-video.dto";
+import {AddVideoDto} from "./dto/add-video.dto";
+import {AddKeynoteDto} from "./dto/add-keynote.dto";
 
 @Controller('lesson')
 export default class LessonController {
@@ -35,18 +36,34 @@ export default class LessonController {
 	}
 
 	@Post(':id/videos')
-	async addVideo(
+	addVideo(
 		@Param('id') id: string,
-		@Body() createVideoDto: CreateVideoDto
+		@Body() addVideoDto: AddVideoDto
 	) {
-		return this.lessonService.addVideo(id, createVideoDto);
+		return this.lessonService.addVideo(id, addVideoDto);
 	}
 
 	@Delete(':id/videos/:videoId')
-	async removeVideo(
+	removeVideo(
 		@Param('id') id: string,
 		@Param('videoId') videoId: string
 	) {
 		return this.lessonService.removeVideo(id, videoId);
+	}
+
+	@Post(':lessonHash/keynotes')
+	addKeynote(
+		@Param('lessonHash') lessonHash: string,
+		@Body() addKeynoteDto: AddKeynoteDto
+	) {
+		return this.lessonService.addKeynote(lessonHash, addKeynoteDto);
+	}
+
+	@Delete(':lessonHash/keynotes/:keynoteHash')
+	removeKeynote(
+		@Param('lessonHash') lessonHash: string,
+		@Param('keynoteHash') keynoteHash: string
+	) {
+		return this.lessonService.removeKeynote(lessonHash, keynoteHash);
 	}
 }
