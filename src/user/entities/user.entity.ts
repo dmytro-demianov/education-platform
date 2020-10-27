@@ -25,4 +25,10 @@ export class User extends Document {
 	role: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(User).set('toJSON', {
+	transform: (doc, entity) => {
+		entity.hash = entity._id;
+		delete entity._id;
+		delete entity.__v;
+	}
+});
