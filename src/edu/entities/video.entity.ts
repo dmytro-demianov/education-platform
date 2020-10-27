@@ -13,4 +13,10 @@ export class Video extends Document {
 	uri: string;
 }
 
-export const VideoSchema = SchemaFactory.createForClass(Video);
+export const VideoSchema = SchemaFactory.createForClass(Video).set('toJSON', {
+	transform: (doc, entity) => {
+		entity.hash = entity._id;
+		delete entity._id;
+		delete entity.__v;
+	}
+});

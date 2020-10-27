@@ -13,4 +13,10 @@ export class Keynote extends Document {
 	uri: string;
 }
 
-export const KeynoteSchema = SchemaFactory.createForClass(Keynote);
+export const KeynoteSchema = SchemaFactory.createForClass(Keynote).set('toJSON', {
+	transform: (doc, entity) => {
+		entity.hash = entity._id;
+		delete entity._id;
+		delete entity.__v;
+	}
+});

@@ -27,4 +27,10 @@ export class Class extends Document {
 	students: string[];
 }
 
-export const ClassSchema = SchemaFactory.createForClass(Class);
+export const ClassSchema = SchemaFactory.createForClass(Class).set('toJSON', {
+	transform: (doc, entity) => {
+		entity.hash = entity._id;
+		delete entity._id;
+		delete entity.__v;
+	}
+});
