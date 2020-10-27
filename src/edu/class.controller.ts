@@ -57,7 +57,7 @@ export default class ClassController {
 		@Param('classHash') classHash: string,
 		@Body() enrollStudent: EnrollStudentDto,
 	) {
-		return this.classService.enrollStudent(classHash, enrollStudent.userHash);
+		return this.classService.enrollStudent(classHash, enrollStudent);
 	}
 
 	@Post(':classHash/expel')
@@ -65,6 +65,6 @@ export default class ClassController {
 		@Param('classHash') classHash: string,
 		@Body() expelStudent: ExpelStudentDto,
 	) {
-		return this.classService.expelStudent(classHash, expelStudent.userHash);
+		return this.classService.expelStudent(classHash, expelStudent);
 	}
 }

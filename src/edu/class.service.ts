@@ -8,6 +8,8 @@ import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {AddLessonDto} from "./dto/add-lesson.dto";
 import {LessonService} from "./lesson.service";
 import {UserService} from "../user/user.service";
+import {EnrollStudentDto} from "./dto/enroll-student.dto";
+import {ExpelStudentDto} from "./dto/expel-student.dto";
 
 @Injectable()
 export class ClassService {
@@ -85,22 +87,22 @@ export class ClassService {
 		return classOne;
 	}
 
-	async enrollStudent(classHash: string, userHash: string) {
-		await this.userService.findOne(userHash);
+	async enrollStudent(classHash: string, enrollStudent: EnrollStudentDto) {
+		await this.userService.findOne(enrollStudent.userHash);
 
 		const classOne = await this.findOne(classHash);
 
-		if (classOne.students.indexOf(userHash) < 0) {
-			classOne.students.push(userHash);
+		if (classOne.students.indexOf(enrollStudent.userHash) < 0) {
+			classOne.students.push(enrollStudent.userHash);
 			await classOne.save();
 		}
 
 		return classOne;
 	}
 
-	async expelStudent(classHash: string, userHash: string) {
+	async expelStudent(classHash: string, expelStudent: ExpelStudentDto) {
 		const classOne = await this.findOne(classHash);
-		const studentIndex = classOne.students.indexOf(userHash);
+		const studentIndex = classOne.students.indexOf(expelStudent.userHash);
 
 		if (studentIndex >= 0) {
 			classOne.students.splice(studentIndex, 1);
