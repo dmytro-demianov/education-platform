@@ -4,6 +4,8 @@ import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {CreateClassDto} from "./dto/create-class.dto";
 import {UpdateClassDto} from "./dto/update-class.dto";
 import {AddLessonDto} from "./dto/add-lesson.dto";
+import {EnrollStudentDto} from "./dto/enroll-student.dto";
+import {ExpelStudentDto} from "./dto/expel-student.dto";
 
 @Controller('classes')
 export default class ClassController {
@@ -48,5 +50,21 @@ export default class ClassController {
 		@Param('lessonHash') lessonHash: string,
 	) {
 		return this.classService.removeLesson(classHash, lessonHash);
+	}
+
+	@Post(':classHash/enroll')
+	enrollStudent(
+		@Param('classHash') classHash: string,
+		@Body() enrollStudent: EnrollStudentDto,
+	) {
+		return this.classService.enrollStudent(classHash, enrollStudent.userHash);
+	}
+
+	@Post(':classHash/expel')
+	expelStudent(
+		@Param('classHash') classHash: string,
+		@Body() expelStudent: ExpelStudentDto,
+	) {
+		return this.classService.expelStudent(classHash, expelStudent.userHash);
 	}
 }

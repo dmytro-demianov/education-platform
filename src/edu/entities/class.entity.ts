@@ -22,6 +22,9 @@ export class Class extends Document {
 
 	@Prop()
 	lessons: string[];
+
+	@Prop()
+	students: string[];
 }
 
 export const ClassSchema = SchemaFactory.createForClass(Class);

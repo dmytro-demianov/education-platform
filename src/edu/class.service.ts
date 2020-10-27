@@ -7,12 +7,14 @@ import {UpdateClassDto} from "./dto/update-class.dto";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {AddLessonDto} from "./dto/add-lesson.dto";
 import {LessonService} from "./lesson.service";
+import {UserService} from "../user/user.service";
 
 @Injectable()
 export class ClassService {
 	constructor(
 		@InjectModel(Class.name) private readonly classModel: Model<Class>,
 		private readonly lessonService: LessonService,
+		private readonly userService: UserService,
 	) {}
 
 	create(createClassDto: CreateClassDto) {
@@ -77,6 +79,31 @@ export class ClassService {
 
 		if (lessonIndex >= 0) {
 			classOne.lessons.splice(lessonIndex, 1);
+			await classOne.save();
+		}
+
+		return classOne;
+	}
+
+	async enrollStudent(classHash: string, userHash: string) {
+		await this.userService.findOne(userHash);
+
+		const classOne = await this.findOne(classHash);
+
+		if (classOne.students.indexOf(userHash) < 0) {
+			classOne.students.push(userHash);
+			await classOne.save();
+		}
+
+		return classOne;
+	}
+
+	async expelStudent(classHash: string, userHash: string) {
+		const classOne = await this.findOne(classHash);
+		const studentIndex = classOne.students.indexOf(userHash);
+
+		if (studentIndex >= 0) {
+			classOne.students.splice(studentIndex, 1);
 			await classOne.save();
 		}
 

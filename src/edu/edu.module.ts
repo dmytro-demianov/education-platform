@@ -12,6 +12,7 @@ import {ClassService} from "./class.service";
 import {Lesson, LessonSchema} from "./entities/lesson.entity";
 import LessonController from "./lesson.controller";
 import {LessonService} from "./lesson.service";
+import {UserModule} from "../user/user.module";
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import {LessonService} from "./lesson.service";
                 schema: KeynoteSchema,
             },
         ]),
+        UserModule,
     ],
     controllers: [
         VideoController,
