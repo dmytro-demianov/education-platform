@@ -4,7 +4,9 @@ import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {UpdateUserDto} from "./dto/update-user.dto";
 import {Public} from "../common/decorators/public.decorator";
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('User')
 @Controller('user')
 export default class UserController {
 	constructor(private readonly userService: UserService) {}

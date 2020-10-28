@@ -3,7 +3,9 @@ import {KeynoteService} from "./keynote.service";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {CreateKeynoteDto} from "./dto/create-keynote.dto";
 import {UpdateKeynoteDto} from "./dto/update-keynote.dto";
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Keynote')
 @Controller('keynote')
 export default class KeynoteController {
 	constructor(private readonly keynoteService: KeynoteService) {}

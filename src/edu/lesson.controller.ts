@@ -5,7 +5,9 @@ import {CreateLessonDto} from "./dto/create-lesson.dto";
 import {UpdateLessonDto} from "./dto/update-lesson.dto";
 import {AddVideoDto} from "./dto/add-video.dto";
 import {AddKeynoteDto} from "./dto/add-keynote.dto";
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Lesson')
 @Controller('lesson')
 export default class LessonController {
 	constructor(private readonly lessonService: LessonService) {}

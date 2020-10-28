@@ -6,7 +6,9 @@ import {UpdateClassDto} from "./dto/update-class.dto";
 import {AddLessonDto} from "./dto/add-lesson.dto";
 import {EnrollStudentDto} from "./dto/enroll-student.dto";
 import {ExpelStudentDto} from "./dto/expel-student.dto";
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Class')
 @Controller('classes')
 export default class ClassController {
 	constructor(private readonly classService: ClassService) {}

@@ -3,7 +3,9 @@ import {VideoService} from "./video.service";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {CreateVideoDto} from "./dto/create-video.dto";
 import {UpdateVideoDto} from "./dto/update-video.dto";
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Video')
 @Controller('video')
 export default class VideoController {
 	constructor(private readonly videoService: VideoService) {}
