@@ -43,6 +43,10 @@ export class UserService {
 		return user.remove();
 	}
 
+	async checkExistsByToken(token: string): Promise<boolean> {
+		return !!await this.userModel.findOne({ token }).exec();
+	}
+
 	findAll(paginationQuery: PaginationQueryDto) {
 		let { limit, page } = paginationQuery;
 		let offset = (--page) * limit;

@@ -19,7 +19,7 @@ export class CreateUserDto {
 	readonly password: string;
 
 	@IsString()
-	@IsIn(['male', 'female'])
+	@IsIn(['m', 'f'])
 	readonly sex: string;
 
 	@IsString()

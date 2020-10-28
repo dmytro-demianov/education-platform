@@ -3,6 +3,11 @@ import {Document} from 'mongoose';
 
 @Schema()
 export class User extends Document {
+	hash: string;
+
+	@Prop()
+	token?: string;
+
 	@Prop({ required: true })
 	name: string;
 
@@ -15,7 +20,7 @@ export class User extends Document {
 	@Prop({ required: true })
 	password: string;
 
-	@Prop({ required: true, enum: ['male', 'female'] })
+	@Prop({ required: true, enum: ['m', 'f'] })
 	sex: string;
 
 	@Prop({

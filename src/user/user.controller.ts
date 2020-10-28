@@ -3,6 +3,7 @@ import {UserService} from "./user.service";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {UpdateUserDto} from "./dto/update-user.dto";
+import {Public} from "../common/decorators/public.decorator";
 
 @Controller('user')
 export default class UserController {
@@ -18,6 +19,7 @@ export default class UserController {
 		return this.userService.findOne(userHash);
 	}
 
+	@Public()
 	@Post()
 	create(@Body() createUserDto: CreateUserDto) {
 		return this.userService.create(createUserDto);

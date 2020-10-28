@@ -4,22 +4,25 @@ import {ValidationPipe} from "@nestjs/common";
 import {WrapResponseInterceptor} from "./common/interceptors/wrap-response.interceptor";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        transform: true,
-        forbidNonWhitelisted: true,
-        transformOptions: {
-          enableImplicitConversion: true,
-        }
-      })
-  );
+    const app = await NestFactory.create(AppModule);
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            transform: true,
+            forbidNonWhitelisted: true,
+            transformOptions: {
+                enableImplicitConversion: true,
+            }
+        })
+    );
+
+    let cookieParser = require('cookie-parser');
+    app.use(cookieParser());
 
     app.useGlobalInterceptors(
         new WrapResponseInterceptor(),
     );
 
-  await app.listen(3000);
+    await app.listen(3000);
 }
 bootstrap();
