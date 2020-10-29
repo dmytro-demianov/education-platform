@@ -12,9 +12,6 @@ export class Lesson extends Document {
 	@Prop({ required: true })
 	order: number;
 
-	@Prop({ required: true, enum: ['standard', 'select', 'premium'] })
-	availability: string;
-
 	@Prop(
 		raw({
 			videos: { type: [] },

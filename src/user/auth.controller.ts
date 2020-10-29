@@ -2,7 +2,7 @@ import {Controller, Post, Req, Res} from "@nestjs/common";
 import {Request, Response} from 'express';
 import {AuthService} from "./auth.service";
 import {Public} from "../common/decorators/public.decorator";
-import {ApiTags} from "@nestjs/swagger";
+import {ApiBasicAuth, ApiTags} from "@nestjs/swagger";
 
 @ApiTags('Auth')
 @Controller()
@@ -33,6 +33,7 @@ export default class AuthController {
 			.send();
 	}
 
+	@ApiBasicAuth()
 	@Post('logout')
 	logout(@Res() response: Response) {
 		return response
