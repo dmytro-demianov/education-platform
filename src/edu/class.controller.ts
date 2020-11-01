@@ -6,7 +6,10 @@ import {UpdateClassDto} from "./dto/update-class.dto";
 import {AddLessonDto} from "./dto/add-lesson.dto";
 import {EnrollStudentDto} from "./dto/enroll-student.dto";
 import {ExpelStudentDto} from "./dto/expel-student.dto";
-import {ApiBasicAuth, ApiTags} from "@nestjs/swagger";
+import {ApiBasicAuth, ApiNoContentResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
+import {ApiCreatedResponse} from "../common/decorators/api.created-hash.decorator";
+import {ApiBadRequestResponse} from "../common/decorators/api.bad-request.invalid-payload.decorator";
+import {ApiInternalServerErrorResponse} from "../common/decorators/api.internal-server-error-response.decorator";
 
 @ApiTags('Classes')
 @Controller('classes')
@@ -25,22 +28,41 @@ export default class ClassController {
 		return this.classService.findOne(classHash);
 	}
 
+	@ApiOperation({
+		description: "Эндпоинт используется для создания потока"
+	})
+	@ApiCreatedResponse()
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
 	@ApiBasicAuth()
 	@Post()
 	create(@Body() createClassDto: CreateClassDto) {
 		return this.classService.create(createClassDto);
 	}
 
+	@ApiOperation({
+		description: "Эндпоинт используется для обновления потока по его hash"
+	})
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
 	@ApiBasicAuth()
 	@Put(':classHash')
 	update(@Param('classHash') classHash: string, @Body() updateClassDto: UpdateClassDto) {
 		return this.classService.update(classHash, updateClassDto);
 	}
 
+	@ApiOperation({
+		description: "Эндпоинт используется для удаления потока по его hash"
+	})
+	@ApiNoContentResponse({
+		description: 'Успех: Отсутствует тело ответа',
+	})
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
 	@ApiBasicAuth()
 	@Delete(':classHash')
-	delete(@Param('classHash') classHash: string) {
-		return this.classService.remove(classHash);
+	delete(@Param('classHash') classHash: string): void {
+		this.classService.remove(classHash);
 	}
 
 	@ApiBasicAuth()

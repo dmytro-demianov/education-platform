@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import {Reflector} from "@nestjs/core";
 import {IS_PUBLIC_KEY} from "../decorators/public.decorator";
 import {UserService} from "../../user/user.service";
@@ -20,7 +20,16 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest<Request>();
     const { user: userToken = null } = request.cookies;
+    const canActivate = userToken && this.userService.checkUserExistsByToken(userToken);
 
-    return userToken && this.userService.checkExistsByToken(userToken);
+    if (!canActivate) {
+      const response = context.switchToHttp().getResponse<Response>();
+
+      response.status(401).send({
+        message: 'not authenticated'
+      });
+    }
+
+    return canActivate;
   }
 }

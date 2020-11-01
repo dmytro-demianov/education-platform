@@ -27,7 +27,17 @@ async function bootstrap() {
     const options = new DocumentBuilder()
         .setTitle('Education')
         .setDescription('Final project: education platform')
+        .addServer('http://localhost:3000')
         .setVersion('1.0')
+        .addSecurity('basic', {
+            type: 'http',
+            scheme: 'basic',
+        })
+        .setContact(
+            'Dmitry Demianov',
+            'https://github.com/demdm',
+            'd65950@gmail.com'
+        )
         .build();
 
     const document = SwaggerModule.createDocument(app, options);

@@ -6,7 +6,7 @@ export class Keynote extends Document {
 	@Prop({ required: true })
 	title: string;
 
-	@Prop({ required: true, min: 1, max: 999 })
+	@Prop({ required: true, min: 1, max: 999, default: 1 })
 	order: number;
 
 	@Prop({ required: true })

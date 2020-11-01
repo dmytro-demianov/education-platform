@@ -5,7 +5,10 @@ import {CreateLessonDto} from "./dto/create-lesson.dto";
 import {UpdateLessonDto} from "./dto/update-lesson.dto";
 import {AddVideoDto} from "./dto/add-video.dto";
 import {AddKeynoteDto} from "./dto/add-keynote.dto";
-import {ApiBasicAuth, ApiTags} from "@nestjs/swagger";
+import {ApiBasicAuth, ApiNoContentResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
+import {ApiCreatedResponse} from "../common/decorators/api.created-hash.decorator";
+import {ApiBadRequestResponse} from "../common/decorators/api.bad-request.invalid-payload.decorator";
+import {ApiInternalServerErrorResponse} from "../common/decorators/api.internal-server-error-response.decorator";
 
 @ApiTags('Lessons')
 @Controller('lessons')
@@ -24,22 +27,41 @@ export default class LessonController {
 		return this.lessonService.findOne(lessonHash);
 	}
 
+	@ApiOperation({
+		description: "Эндпоинт используется для создания потока"
+	})
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	@ApiCreatedResponse()
 	@ApiBasicAuth()
 	@Post()
 	create(@Body() createLessonDto: CreateLessonDto) {
 		return this.lessonService.create(createLessonDto);
 	}
 
+	@ApiOperation({
+		description: "Эндпоинт используется для обновления урока по его hash"
+	})
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
 	@ApiBasicAuth()
 	@Put(':lessonHash')
 	update(@Param('lessonHash') lessonHash: string, @Body() updateLessonDto: UpdateLessonDto) {
 		return this.lessonService.update(lessonHash, updateLessonDto);
 	}
 
+	@ApiOperation({
+		description: "Эндпоинт используется для удаления урока по его hash"
+	})
+	@ApiNoContentResponse({
+		description: 'Успех: Отсутствует тело ответа',
+	})
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
 	@ApiBasicAuth()
 	@Delete(':lessonHash')
-	delete(@Param('lessonHash') lessonHash: string) {
-		return this.lessonService.remove(lessonHash);
+	delete(@Param('lessonHash') lessonHash: string): void {
+		this.lessonService.remove(lessonHash);
 	}
 
 	@ApiBasicAuth()
